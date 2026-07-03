@@ -272,7 +272,6 @@ function SelectScreen({
   activeSort,
   candidates,
   onOpenPool,
-  onOpenSort,
   onSortChange,
   onSearchChange,
   onToggleCandidate,
@@ -283,7 +282,6 @@ function SelectScreen({
   activeSort: SortKey;
   candidates: Candidate[];
   onOpenPool: () => void;
-  onOpenSort: () => void;
   onSearchChange: (value: string) => void;
   onSortChange: (value: SortKey) => void;
   onToggleCandidate: (id: string) => void;
@@ -293,9 +291,11 @@ function SelectScreen({
 }) {
   const data = prototypeData[vertical];
   const selectedSet = new Set(selectedIds);
+  const [filterMenuOpen, setFilterMenuOpen] = useState(false);
+  const activeFilter = data.quickFilters.find((filter) => filter.key === activeSort);
 
   return (
-    <main className="h-full overflow-y-auto bg-[#f8f6f1] px-5 pb-6 pt-3">
+    <main className="relative h-full overflow-y-auto bg-[#f8f6f1] px-5 pb-6 pt-3">
       <SectionTitle title={data.selectTitle} />
 
       <section className="mt-4">
@@ -306,23 +306,75 @@ function SelectScreen({
         />
       </section>
 
-      <nav
-        aria-label="排序筛选"
-        className="mt-4 flex gap-2 overflow-x-auto pb-1 [-ms-overflow-style:none] [scrollbar-width:none]"
-      >
-        {data.quickFilters.map((filter) => (
-          <PillButton
-            key={filter.key}
-            active={filter.key === activeSort}
-            onClick={() => onSortChange(filter.key)}
+      {filterMenuOpen ? (
+        <button
+          aria-label="关闭筛选菜单"
+          className="absolute inset-0 z-10 cursor-default bg-transparent"
+          onClick={() => setFilterMenuOpen(false)}
+          type="button"
+        />
+      ) : null}
+
+      <section className="relative z-20 mt-4" aria-label="排序筛选">
+        <button
+          className="inline-flex h-9 items-center gap-2 rounded-full bg-white px-4 text-[13px] font-semibold text-ink shadow-card transition"
+          onClick={() => setFilterMenuOpen((current) => !current)}
+          type="button"
+        >
+          <span>{activeFilter?.label ?? "推荐优先"}</span>
+          <span
+            aria-hidden="true"
+            className={[
+              "text-[10px] text-black/45 transition-transform",
+              filterMenuOpen ? "rotate-180" : ""
+            ]
+              .filter(Boolean)
+              .join(" ")}
           >
-            {filter.label}
-          </PillButton>
-        ))}
-        <PillButton active={false} onClick={onOpenSort}>
-          更多
-        </PillButton>
-      </nav>
+            v
+          </span>
+        </button>
+
+        <AnimatePresence>
+          {filterMenuOpen ? (
+            <motion.div
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              className="absolute left-0 top-[46px] w-[148px] overflow-hidden rounded-[22px] bg-white p-3 shadow-[0_22px_40px_rgba(17,17,17,0.12)]"
+              exit={{ opacity: 0, y: -6, scale: 0.98 }}
+              initial={{ opacity: 0, y: -6, scale: 0.98 }}
+              transition={{ duration: 0.18 }}
+            >
+              <div className="space-y-1">
+                {data.quickFilters.map((filter) => {
+                  const active = filter.key === activeSort;
+
+                  return (
+                    <button
+                      key={filter.key}
+                      className={[
+                        "relative flex h-11 w-full items-center rounded-[14px] pl-4 pr-3 text-left text-[13px] font-semibold transition",
+                        active ? "bg-[#fff8d8] text-ink" : "text-black/55 hover:bg-[#f6f6f4]"
+                      ]
+                        .filter(Boolean)
+                        .join(" ")}
+                      onClick={() => {
+                        onSortChange(filter.key);
+                        setFilterMenuOpen(false);
+                      }}
+                      type="button"
+                    >
+                      {active ? (
+                        <span className="absolute left-0 top-1/2 h-5 w-1 -translate-y-1/2 rounded-full bg-brand" />
+                      ) : null}
+                      <span className="block leading-5">{filter.label}</span>
+                    </button>
+                  );
+                })}
+              </div>
+            </motion.div>
+          ) : null}
+        </AnimatePresence>
+      </section>
 
       <section className="mt-5 space-y-3">
         {candidates.length > 0 ? (
@@ -1041,7 +1093,6 @@ function App() {
           activeSort={activeSort}
           candidates={filteredCandidates}
           onOpenPool={() => setScreen("pool")}
-          onOpenSort={() => setModal("sort")}
           onSearchChange={updateSearch}
           onSortChange={updateSort}
           onToggleCandidate={toggleSelected}
