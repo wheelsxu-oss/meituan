@@ -1,0 +1,13 @@
+node_modules/
+dist/
+output/
+.chrome-headless/
+.chrome-headless-old/
+.chrome-headless-sw/
+.edge-headless/
+.edge-headless-*/
+.edge-pdf-*/
+repo-meta/
+*.tsbuildinfo
+.DS_Store
+npm-debug.log*
