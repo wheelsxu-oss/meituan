@@ -1,11 +1,15 @@
 $requiredFiles = @(
   "index.html",
   "dist\App.js",
+  "dist\bundle.js",
   "dist\main.js",
   "dist\styles.css",
   "dist\data\prototypeData.js",
   "dist\vendor\react.js",
   "dist\vendor\react-jsx-runtime.js",
+  "vendor\framer-motion.js",
+  "vendor\react.production.min.js",
+  "vendor\react-dom.production.min.js",
   "scripts/dev-server.ps1",
   "tsconfig.runtime.json"
 )

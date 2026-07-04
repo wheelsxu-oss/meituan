@@ -6,9 +6,13 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const rootDir = path.resolve(__dirname, "..");
 const requiredFiles = [
   "index.html",
-  "src/runtime-app.jsx",
+  "dist/bundle.js",
+  "dist/styles.css",
   "src/App.tsx",
-  "src/data/prototypeData.ts"
+  "src/data/prototypeData.ts",
+  "vendor/framer-motion.js",
+  "vendor/react-dom.production.min.js",
+  "vendor/react.production.min.js"
 ];
 
 const missing = requiredFiles.filter(

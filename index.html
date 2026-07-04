@@ -5,19 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>美团智能决策助手交互原型</title>
     <link rel="stylesheet" href="./dist/styles.css" />
-    <script type="importmap">
-      {
-        "imports": {
-          "react/jsx-runtime": "./dist/vendor/react-jsx-runtime.js"
-        }
-      }
-    </script>
   </head>
   <body>
     <div id="root"></div>
-    <script src="./node_modules/react/umd/react.production.min.js"></script>
-    <script src="./node_modules/react-dom/umd/react-dom.production.min.js"></script>
-    <script src="./node_modules/framer-motion/dist/framer-motion.js"></script>
-    <script type="module" src="./dist/main.js"></script>
+    <script src="./vendor/react.production.min.js"></script>
+    <script src="./vendor/react-dom.production.min.js"></script>
+    <script src="./vendor/framer-motion.js"></script>
+    <script src="./dist/bundle.js"></script>
   </body>
 </html>

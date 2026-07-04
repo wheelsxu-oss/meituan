@@ -1,5 +1,4 @@
 node_modules/
-dist/
 output/
 .chrome-headless/
 .chrome-headless-old/

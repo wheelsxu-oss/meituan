@@ -38,6 +38,14 @@
 
 ## 快速开始
 
+直接查看演示：
+
+1. 在 GitHub 页面点击 `Code` → `Download ZIP`
+2. 解压下载文件
+3. 双击项目根目录里的 `index.html`
+
+说明：仓库已经包含演示所需的 `dist/` 和 `vendor/` 文件，直接打开 `index.html` 即可查看页面。
+
 安装依赖：
 
 ```bash
@@ -131,26 +139,24 @@ prototype-app/
 
 当前版本适合做本地演示、课程作业展示或内网静态部署。
 
-部署时至少要保证以下内容在同一项目根目录下保持相对路径不变：
+如果只是查看演示，下载仓库后直接打开根目录的 `index.html` 即可。需要保证以下内容在同一项目根目录下保持相对路径不变：
 
 - `index.html`
 - `dist/`
+- `vendor/`
 - `reference/`
-- `node_modules/react/`
-- `node_modules/react-dom/`
-- `node_modules/framer-motion/`
 
 原因是：
 
-- `index.html` 会直接引用 `dist/` 中的编译产物
+- `index.html` 会直接引用 `dist/` 中的静态脚本和样式
+- `vendor/` 中包含浏览器运行所需的 React、ReactDOM 和 Framer Motion
 - 页面中的部分视觉内容依赖 `reference/`
-- 运行时通过 `node_modules` 中的 UMD 文件挂载 React、ReactDOM 和 Framer Motion
 
-因此，当前版本最稳妥的部署方式是：
+如果需要继续开发或修改源码，再执行：
 
-1. 在目标机器执行 `npm install`
-2. 执行 `npm run build`
-3. 使用 `npm run dev` 或任意静态服务器从项目根目录提供访问
+1. `npm install`
+2. `npm run build`
+3. `npm run dev`
 
 ## 详细开发文档
 
